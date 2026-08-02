@@ -296,11 +296,21 @@ CivicFix uses a custom **Obsidian Dark** design language:
 
 ## 📸 Screenshots
 
-> _Screenshots will be added after deployment._
+### 🏠 Landing Page
+![Landing Page](public/screenshots/landing.png)
+> Obsidian dark hero with animated "Report. Track. Resolve." headline, CTA buttons, and Indian Flag background.
 
-| Landing Page | Citizen Report Form | Authority Dashboard | Emergency SOS |
-|---|---|---|---|
-| Hero with animated stats | Geo-tagged form with map | KPI cards + charts + table | Quick-dial + live map |
+### 📋 Citizen Reports Portal
+![Citizen Reports](public/screenshots/citizen-reports.png)
+> Citizen dashboard showing submitted reports with status badges (Submitted, Assigned, In Progress, Resolved), priority tags, and issue cards.
+
+### 🛡️ Authority Dashboard
+![Authority Dashboard](public/screenshots/dashboard.png)
+> Admin control panel with KPI cards, Issues by Category bar chart, Status Distribution pie chart, advanced filters, and paginated issues table.
+
+### 🆘 Emergency Connect (SOS)
+![Emergency SOS Modal](public/screenshots/sos-modal.png)
+> One-tap emergency modal with Police (100) & Fire Brigade (101) quick-dial, secondary numbers (Ambulance, Disaster, Women Safety), nearest stations list, and live Leaflet map.
 
 ---
 
@@ -329,5 +339,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 Built with ❤️ for **Smart City India** — bridging citizens and municipal authorities.
 
 **CivicFix** · *Report. Track. Resolve.*
+
+Made by [Subhradeep Kundu](https://github.com/subhradeepkundu270305)
 
 </div>
