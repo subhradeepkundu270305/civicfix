@@ -14,7 +14,7 @@ Report potholes, broken streetlights, water leaks, and other public infrastructu
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-green?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-[Live Demo](https://civicfix-one.vercel.app) · [Report a Bug](#) · [Request a Feature](#)
+[Live Demo](https://civicfix-one.vercel.app) · [Report a Bug](subhradeepkundu2005@gmail.com) · [Request a Feature](subhradeepkundu2005@gmail.com)
 
 </div>
 
