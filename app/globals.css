@@ -1,26 +1,342 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════
+   CIVICFIX — OBSIDIAN DARK DESIGN SYSTEM v3
+   Inspired by: Vercel · Linear · Stripe
+   Palette: Deep Obsidian · Electric Indigo · Cyber Blue
+═══════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Core Dark Surfaces (Obsidian & Charcoal) ── */
+  --obs-bg:        #090D16;   /* Deep Obsidian page BG */
+  --obs-card:      #111827;   /* Card / table surface  */
+  --obs-card-2:    #141C2E;   /* Elevated card surface */
+  --obs-border:    #1E293B;   /* Crisp dark border     */
+  --obs-border-2:  #334155;   /* Hover border          */
+  --obs-hover:     #162032;   /* Row / item hover      */
+
+  /* ── Primary Accent (Electric Indigo & Cyber Blue) ── */
+  --elec-600:    #4338CA;
+  --elec-500:    #4F46E5;   /* Indigo primary         */
+  --elec-400:    #6366F1;   /* Electric Indigo        */
+  --elec-300:    #818CF8;
+  --cyber-500:   #3B82F6;   /* Cyber Blue             */
+  --cyber-400:   #60A5FA;
+  --glow-indigo: rgba(99,102,241,0.18);
+  --glow-blue:   rgba(59,130,246,0.14);
+
+  /* ── Text ── */
+  --txt-primary:   #F1F5F9;   /* Near-white headers    */
+  --txt-secondary: #94A3B8;   /* Muted body text       */
+  --txt-muted:     #64748B;   /* Faint label / muted    */
+  --txt-link:      #818CF8;
+
+  /* ── Sophisticated Status Badges (bg-opacity-10 glowing pills) ── */
+  --s-submitted-bg:  rgba(99,102,241,0.10);
+  --s-submitted-txt: #818CF8;
+  --s-submitted-bdr: rgba(99,102,241,0.25);
+
+  --s-review-bg:  rgba(139,92,246,0.10);
+  --s-review-txt: #8B5CF6;
+  --s-review-bdr: rgba(139,92,246,0.25);
+
+  --s-assigned-bg:  rgba(245,158,11,0.10);
+  --s-assigned-txt: #F59E0B;
+  --s-assigned-bdr: rgba(245,158,11,0.25);
+
+  --s-inprog-bg:  rgba(6,182,212,0.10);
+  --s-inprog-txt: #06B6D4;
+  --s-inprog-bdr: rgba(6,182,212,0.25);
+
+  --s-resolved-bg:  rgba(16,185,129,0.10);
+  --s-resolved-txt: #10B981;
+  --s-resolved-bdr: rgba(16,185,129,0.25);
+
+  --s-rejected-bg:  rgba(244,63,94,0.10);
+  --s-rejected-txt: #F43F5E;
+  --s-rejected-bdr: rgba(244,63,94,0.25);
+
+  /* ── Semantic Priority ── */
+  --p-low-bg:  rgba(16,185,129,0.10); --p-low-txt:  #10B981; --p-low-bdr:  rgba(16,185,129,0.25);
+  --p-med-bg:  rgba(245,158,11,0.10); --p-med-txt:  #F59E0B; --p-med-bdr:  rgba(245,158,11,0.25);
+  --p-hig-bg:  rgba(249,115,22,0.10); --p-hig-txt:  #F97316; --p-hig-bdr:  rgba(249,115,22,0.25);
+  --p-crit-bg: rgba(244,63,94,0.10);  --p-crit-txt: #F43F5E; --p-crit-bdr: rgba(244,63,94,0.25);
+
+  /* ── Ambient Shadows & Glows ── */
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-elev:   0 4px 20px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-modal:  0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06);
+  --shadow-glow:   0 0 20px rgba(99,102,241,0.15);
+  --shadow-glow-h: 0 0 30px rgba(99,102,241,0.30);
+  --shadow-btn:    0 0 20px rgba(99,102,241,0.20), 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-btn-h:  0 0 30px rgba(99,102,241,0.35), 0 8px 20px rgba(0,0,0,0.5);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--obs-bg);
+  color: var(--txt-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--obs-card); }
+::-webkit-scrollbar-thumb { background: var(--obs-border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--elec-400); }
+
+/* ── Leaflet ── */
+.leaflet-container { z-index: 0; border-radius: 12px; }
+
+/* ═══ KEYFRAMES ══════════════════════════════════════ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 12px rgba(99,102,241,0.15); }
+  50%     { box-shadow: 0 0 28px rgba(99,102,241,0.35); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+
+.animate-fade-in-up  { animation: fadeInUp 0.5s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-in     { animation: fadeIn 0.3s ease-out both; }
+.animate-scale-in    { animation: scaleIn 0.4s cubic-bezier(.22,1,.36,1) both; }
+.animate-float       { animation: float 4s ease-in-out infinite; }
+.animate-glow-pulse  { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+/* ═══ GLASS / SURFACE UTILITIES (Frosted Glass) ═══════ */
+
+.obs-glass {
+  background: rgba(9, 13, 22, 0.80);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--obs-border);
+}
+.obs-glass-card {
+  background: rgba(17, 24, 39, 0.80);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--obs-border);
+}
+
+/* ═══ CARD UTILITIES (Obsidian Surfaces & Ambient Glow) ════ */
+
+.obs-card {
+  background: var(--obs-card);
+  border: 1px solid var(--obs-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.obs-card:hover {
+  border-color: var(--obs-border-2);
+  box-shadow: var(--shadow-glow), var(--shadow-elev);
+  transform: translateY(-2px);
+}
+
+/* ═══ INPUT STYLES ════════════════════════════════════ */
+
+.obs-input {
+  width: 100%;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: rgba(17,24,39,0.7);
+  border: 1px solid var(--obs-border);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: var(--txt-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.obs-input.pl-10,
+.obs-input.pl-9,
+.obs-input.pl-11,
+.obs-input.has-icon-left {
+  padding-left: 2.75rem !important;
+}
+.obs-input.pr-10,
+.obs-input.pr-11,
+.obs-input.has-icon-right {
+  padding-right: 2.75rem !important;
+}
+.obs-input:focus {
+  border-color: var(--elec-400);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.20), 0 0 15px rgba(99,102,241,0.15);
+}
+.obs-input::placeholder { color: #64748B; }
+
+/* ═══ BUTTON STYLES & MICRO-INTERACTIONS ═══════════════ */
+
+.obs-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.4rem;
+  background: linear-gradient(135deg, var(--elec-400), var(--cyber-500));
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(.22,1,.36,1);
+  box-shadow: var(--shadow-btn);
+  letter-spacing: -0.01em;
+}
+.obs-btn-primary:hover {
+  background: linear-gradient(135deg, #4F46E5, #2563EB);
+  box-shadow: var(--shadow-btn-h);
+  transform: translateY(-1px);
+}
+.obs-btn-primary:active {
+  transform: scale(0.95);
+}
+
+.obs-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.4rem;
+  background: rgba(255,255,255,0.03);
+  color: var(--txt-secondary);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 10px;
+  border: 1px solid var(--obs-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.obs-btn-ghost:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: var(--obs-border-2);
+  color: var(--txt-primary);
+  box-shadow: 0 0 15px rgba(255,255,255,0.05);
+}
+.obs-btn-ghost:active {
+  transform: scale(0.95);
+}
+
+/* ═══ STATUS GLOW PILLS ═══════════════════════════════ */
+
+.pill-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  transition: all 0.2s ease;
+}
+
+/* ═══ SHIMMER SKELETON ════════════════════════════════ */
+
+.obs-shimmer {
+  background: linear-gradient(90deg, var(--obs-card) 25%, var(--obs-border) 50%, var(--obs-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ═══ TYPOGRAPHY UTILITY ═════════════════════════════ */
+
+.obs-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--txt-muted);
+}
+
+
+/* ═══ DIVIDER ════════════════════════════════════════ */
+
+.obs-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--obs-border), transparent);
+}
+
+/* ═══ MOBILE RESPONSIVENESS & XS BREAKPOINT ═════════ */
+
+/* xs = 480px — fills the gap between 0 and Tailwind's sm:640px */
+@media (min-width: 480px) {
+  .xs\:inline  { display: inline !important; }
+  .xs\:block   { display: block  !important; }
+  .xs\:flex    { display: flex   !important; }
+  .xs\:hidden  { display: none   !important; }
+}
+
+/* Touch-friendly tap targets for mobile */
+@media (max-width: 639px) {
+  .obs-btn-primary,
+  .obs-btn-ghost {
+    min-height: 44px;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .obs-input {
+    min-height: 46px;
+    font-size: 1rem; /* Prevents iOS zoom on focus */
+  }
+
+  /* Cards get slightly more padding on tiny screens */
+  .obs-card {
+    border-radius: 12px;
+  }
+
+  /* Modal full-screen on mobile */
+  .emergency-modal-panel {
+    inset: 12px;
+    transform: none;
+    top: auto;
+    bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: 92vh;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* Smooth scroll container */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
+
+/* Safe area padding for notched phones */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+.safe-top    { padding-top: env(safe-area-inset-top, 0px); }
