@@ -14,7 +14,7 @@ Report potholes, broken streetlights, water leaks, and other public infrastructu
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-green?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-[Live Demo](https://civicfix-one.vercel.app) · [Report a Bug](subhradeepkundu2005@gmail.com) · [Request a Feature](subhradeepkundu2005@gmail.com)
+[Live Demo](https://civicfix-one.vercel.app) · [Report a Bug](mailto:subhradeepkundu2005@gmail.com) · [Request a Feature](mailto:subhradeepkundu2005@gmail.com)
 
 </div>
 
@@ -41,8 +41,8 @@ Report potholes, broken streetlights, water leaks, and other public infrastructu
 **CivicFix** is a government-grade civic infrastructure damage reporting platform built for Indian smart cities. It provides a seamless workflow for citizens to report issues and for municipal officers to triage, assign, and resolve them — all within a beautiful, dark-themed SaaS-quality interface.
 
 The platform features a dual-portal system:
-- **Citizen Portal** — Register, log in, submit geo-tagged reports, and track issue status.
-- **Authority Dashboard** — Admins view analytics charts, filter/search all submitted issues, update statuses, and manage resolution workflows.
+- **Citizen Portal** — Register, log in, submit geo-tagged reports, track issue status, edit mistaken reports, or delete unwanted reports.
+- **Authority Command Dashboard** — Admins view real-time glassmorphic analytics, India-wide density heatmaps, SLA overdue trackers, peak reporting hour grids, category breakdown charts, filter/search all submitted issues, update statuses, and manage resolution workflows.
 
 ---
 
@@ -55,21 +55,26 @@ The platform features a dual-portal system:
 | **Issue Reporting** | Multi-field report form with category, priority, title, description, and location |
 | **Geo-Tagged Location** | Interactive Leaflet map — click, drag pin, or use GPS auto-detect with reverse geocoding via Nominatim |
 | **Photo Evidence Upload** | Attach photographic evidence (PNG/JPG, up to 5MB); stored as Base64 data URLs |
-| **My Reports Dashboard** | Citizens can track all their submitted reports with live status updates |
+| **My Reports Tracker** | Citizens track all submitted reports with live status indicators and progress bars |
+| **Report Edit & Delete** | Citizens can edit mistaken report details or safely delete unwanted reports directly from their dashboard |
 | **Priority Selection** | 4-tier urgency system: Low · Medium · High · Critical |
 | **Issue Categories** | Pothole 🕳️ · Streetlight 💡 · Water Leak 💧 · Footpath 🚶 · Open Drain 🌊 · Other ⚠️ |
 
-### 🛡️ Authority Dashboard (Admin)
+### 🛡️ Authority Command Dashboard (Admin)
 | Feature | Description |
 |---|---|
-| **KPI Analytics Cards** | Live count-up animated stats: Total Issues, Resolved, In-Progress, Critical |
-| **Bar Chart — Category View** | Visual breakdown of issues by infrastructure category (Recharts) |
-| **Pie Chart — Status Distribution** | Donut chart showing real-time status distribution with colour legend |
-| **Advanced Filtering** | Filter by Status, Category, and Priority simultaneously |
-| **Full-Text Search** | Search across issue ID, title, address, and reporter name |
-| **Paginated Issue Table** | 8 issues per page with animated row transitions |
-| **Issue Detail Modal** | Click any row to view full details and update issue status |
-| **Status Lifecycle Management** | Submitted → Under Review → Assigned → In Progress → Resolved / Rejected |
+| **5-Column Glassmorphic KPIs** | Live animated stats: Total Issues, Resolved Rate, Active Repairs, Critical Hazards, and SLA Overdue Alert Card |
+| **India-Wide Density Heatmap** | Leaflet + `leaflet.heat` spatial density map rendering Indian metro clusters with zoom-aware radius/blur |
+| **Top 5 Hotspots Ranked List** | Ranked hotspot locations with gradient progress indicators |
+| **Reported vs. Resolved Trend** | Area chart with interactive **7D / 30D / 90D** range toggle buttons |
+| **Category × Status Stacked Bar** | Stacked bar chart segmenting each issue category by status breakdown |
+| **Resolution Time Breakdown** | Horizontal bar chart tracking average resolution days per category |
+| **First-Response & Rejection Rate** | Triage time KPI + rejection rate analytics with top rejection reason breakdowns |
+| **Department Workload** | Horizontal bar chart monitoring open work orders per municipal department/zone |
+| **Photo Evidence Coverage** | SVG circular gauge measuring % of submitted reports containing photo proof |
+| **Peak Reporting Hours Heatmap** | 7×24 grid matrix (day of week vs hour of day) showing peak reporting time volume density |
+| **Advanced Filtering & Search** | Filter by Status, Category, and Priority; full-text search across ID, title, address, reporter |
+| **Paginated Issue Table & Modal** | 8 issues per page with animated row transitions and full issue detail/status update modal |
 
 ### 🆘 Emergency Connect (SOS)
 | Feature | Description |
@@ -81,50 +86,41 @@ The platform features a dual-portal system:
 | **Nearest Station Listing** | Displays 6 nearest police & fire stations with distance and direct call button |
 | **IPC Warning Banner** | Legal notice: false/prank calls are punishable under IPC § 505 |
 
-### 🎨 UI/UX
-| Feature | Description |
-|---|---|
-| **Obsidian Dark Theme** | Deep charcoal (`#090D16`) background with electric indigo (`#6366F1`) accents |
-| **Glassmorphism Cards** | Backdrop-blur glass cards with subtle border glow |
-| **Framer Motion Animations** | Page transitions, card hover tilt/lift, count-up numbers, animated table rows |
-| **Fully Responsive** | Mobile-first design — optimised for phones, tablets, and desktops |
-| **Toast Notifications** | Styled React Hot Toast for success/error feedback |
-| **Animated Statistics** | Count-up number animation triggered on viewport entry |
-
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
+### Frontend & Core
 | Technology | Version | Purpose |
 |---|---|---|
 | [Next.js](https://nextjs.org) | 16.2 | React framework with App Router & API Routes |
 | [React](https://react.dev) | 19.x | UI component library |
 | [TypeScript](https://www.typescriptlang.org) | 5.x | Static type safety |
-| [Tailwind CSS](https://tailwindcss.com) | 4.x | Utility-first styling |
-| [Framer Motion](https://www.framer.com/motion/) | 12.x | Animations & page transitions |
+| [Tailwind CSS](https://tailwindcss.com) | 4.x | Utility-first styling & responsive layouts |
+| [Framer Motion](https://www.framer.com/motion/) | 12.x | Glassmorphic animations & page transitions |
 | [Lucide React](https://lucide.dev) | 1.28 | Icon library |
 
-### Mapping & Geo
+### Mapping & Spatial Analytics
 | Technology | Version | Purpose |
 |---|---|---|
-| [Leaflet](https://leafletjs.com) | 1.9.4 | Interactive maps |
-| [React Leaflet](https://react-leaflet.js.org) | 5.x | React bindings for Leaflet |
-| [Nominatim API](https://nominatim.openstreetmap.org) | — | Free reverse geocoding |
-| [CartoDB Dark Tiles](https://basemaps.cartocdn.com) | — | Dark map tile layer |
+| [Leaflet](https://leafletjs.com) | 1.9.4 | Interactive maps & location selection |
+| [Leaflet Heat](https://github.com/Leaflet/Leaflet.heat) | 0.2.0 | Spatial density heatmap visualization layer |
+| [Nominatim API](https://nominatim.openstreetmap.org) | — | Free reverse geocoding (coordinates to physical address) |
+| [CartoDB Dark Tiles](https://basemaps.cartocdn.com) | — | Dark map tile layer matching Obsidian UI |
 
-### Charts & Data
+### Charts & Visualizations
 | Technology | Version | Purpose |
 |---|---|---|
-| [Recharts](https://recharts.org) | 3.10 | Bar & Pie chart visualisations |
+| [Recharts](https://recharts.org) | 3.10 | Bar, Stacked Bar, Donut, Area & Trend visualisations |
 | [UUID](https://www.npmjs.com/package/uuid) | 14.x | Unique issue ID generation |
-| [React Hot Toast](https://react-hot-toast.com) | 2.6 | Toast notification system |
+| [React Hot Toast](https://react-hot-toast.com) | 2.6 | Toast notification feedback system |
 
 ### Backend (Next.js API Routes)
 | Route | Method | Purpose |
 |---|---|---|
 | `/api/auth` | `POST` | User login & registration |
-| `/api/issues` | `GET / POST / PATCH` | CRUD for issue reports |
+| `/api/issues` | `GET / POST` | Fetch issues / Create issue report |
+| `/api/issues/[id]` | `PATCH / DELETE` | Update status & edit issue details / Delete report |
 | `/api/upload` | `POST` | Base64 image upload handler |
 
 ---
@@ -136,18 +132,20 @@ infra-report/
 ├── app/
 │   ├── layout.tsx              # Root layout (Navbar, Toaster, fonts)
 │   ├── page.tsx                # Landing/Homepage
-│   ├── globals.css             # Global styles & design tokens
+│   ├── globals.css             # Global styles & Obsidian design tokens
 │   ├── admin/
 │   │   ├── login/page.tsx      # Admin login page
-│   │   └── dashboard/page.tsx  # Authority management dashboard
+│   │   └── dashboard/page.tsx  # Authority management dashboard & analytics
 │   ├── citizen/
 │   │   ├── login/page.tsx      # Citizen login
 │   │   ├── register/page.tsx   # Citizen registration
 │   │   ├── report/page.tsx     # Issue submission page
-│   │   └── my-reports/page.tsx # Citizen's report tracker
+│   │   └── my-reports/page.tsx # Citizen's report tracker & edit/delete modal
 │   └── api/
 │       ├── auth/route.ts       # Auth API (login/register)
-│       ├── issues/route.ts     # Issues CRUD API
+│       ├── issues/
+│       │   ├── route.ts        # Issues GET / POST API
+│       │   └── [id]/route.ts   # Issues PATCH / DELETE API
 │       └── upload/route.ts     # Photo upload API
 ├── components/
 │   ├── Navbar.tsx              # Responsive navigation bar
@@ -155,20 +153,30 @@ infra-report/
 │   ├── IssueMap.tsx            # Interactive Leaflet map component
 │   ├── IssueDetailModal.tsx    # Admin issue detail & status updater
 │   ├── EmergencyConnect.tsx    # SOS floating button & emergency modal
-│   ├── AnimatedCard.tsx        # Reusable tilt/lift animated card
-│   ├── CountUpNumber.tsx       # Animated number counter
-│   ├── ReportCard.tsx          # Citizen report card component
-│   ├── StatusBadge.tsx         # Coloured status pill badge
-│   ├── PriorityBadge.tsx       # Coloured priority pill badge
-│   └── CategoryBadge.tsx       # Coloured category pill badge
+│   ├── ReportCard.tsx          # Citizen report card component (Edit/Delete controls)
+│   ├── dashboard/              # Authority Dashboard Component Suite
+│   │   ├── KpiCardGlass.tsx           # Glassmorphic KPI card with SLA indicators
+│   │   ├── PriorityDistribution.tsx   # Recharts donut chart
+│   │   ├── CategoryStatusStacked.tsx  # Category x Status stacked bar chart
+│   │   ├── ReportedVsResolvedTrend.tsx# 7D/30D/90D interactive area trend chart
+│   │   ├── ResolutionTimeBreakdown.tsx# Resolution time horizontal bar chart
+│   │   ├── FirstResponseTime.tsx      # Triage response time KPI
+│   │   ├── RejectionRate.tsx          # Rejection rate & reasons breakdown
+│   │   ├── DepartmentWorkload.tsx     # Department workload horizontal bar chart
+│   │   ├── PhotoEvidenceCoverage.tsx  # SVG circular photo coverage gauge
+│   │   ├── IndiaHeatmap.tsx           # Leaflet density heatmap component
+│   │   ├── TopHotspots.tsx            # Top 5 ranked hotspots list
+│   │   ├── PeakReportingHeatmap.tsx   # 7x24 hour reporting grid matrix
+│   │   └── shared.ts                  # Shared chart colors & utility functions
 ├── lib/
 │   └── store.ts                # In-memory data store (users & issues)
 ├── types/
-│   └── index.ts                # Shared TypeScript types & interfaces
-├── data/                       # Static seed data
+│   ├── index.ts                # Shared TypeScript types & interfaces
+│   └── leaflet-heat.d.ts       # Custom type definitions for leaflet.heat
+├── data/
+│   └── heatmapDummyData.ts     # Geographic point cluster data for density heatmap
 ├── public/
 │   └── india_flag.jpg          # Hero background image
-├── .gitignore
 ├── next.config.ts
 ├── tailwind.config.ts
 ├── tsconfig.json
@@ -188,7 +196,7 @@ infra-report/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/civicfix.git
+git clone https://github.com/subhradeepkundu270305/civicfix.git
 cd civicfix
 
 # 2. Install dependencies
@@ -200,15 +208,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Available Scripts
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Start development server with Turbopack |
-| `npm run build` | Build production bundle |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint checks |
-
 ---
 
 ## 🗺️ Pages & Routes
@@ -219,9 +218,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `/citizen/register` | Public | New citizen registration |
 | `/citizen/login` | Public | Citizen login |
 | `/citizen/report` | Auth (citizen) | Submit a new infrastructure report |
-| `/citizen/my-reports` | Auth (citizen) | View all reports submitted by the user |
+| `/citizen/my-reports` | Auth (citizen) | View, edit, or delete submitted reports |
 | `/admin/login` | Public | Municipal authority login |
-| `/admin/dashboard` | Auth (admin) | Full authority management dashboard |
+| `/admin/dashboard` | Auth (admin) | Full authority command & analytics dashboard |
 
 > **Demo Credentials**  
 > Admin: Use the pre-seeded admin account from `lib/store.ts`  
@@ -232,44 +231,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 🔌 API Reference
 
 ### `POST /api/auth`
-
-**Login**
-```json
-{ "action": "login", "email": "user@example.com", "password": "pass123" }
-```
-**Register**
-```json
-{ "action": "register", "name": "John Doe", "email": "user@example.com", "password": "pass123" }
-```
+Login or Register user.
 
 ### `GET /api/issues`
 Returns all submitted issues.
 
 ### `POST /api/issues`
-```json
-{
-  "title": "Deep pothole near Sunshine School",
-  "category": "Pothole",
-  "priority": "High",
-  "description": "...",
-  "address": "MG Road, Block 4",
-  "latitude": 28.6139,
-  "longitude": 77.2090,
-  "imageUrl": "data:image/jpeg;base64,...",
-  "reporterName": "John Doe",
-  "reporterEmail": "john@example.com",
-  "reporterId": "uuid"
-}
-```
+Submits a new infrastructure issue report.
 
-### `PATCH /api/issues`
-Update issue status (admin only):
-```json
-{ "id": "issue-uuid", "status": "In_Progress" }
-```
+### `PATCH /api/issues/[id]`
+Updates issue status (admin) or updates report details (citizen).
 
-### `POST /api/upload`
-Multipart form upload with `file` field. Returns `{ "url": "data:image/jpeg;base64,..." }`.
+### `DELETE /api/issues/[id]`
+Deletes an issue report (citizen/admin).
 
 ---
 
@@ -287,44 +261,6 @@ CivicFix uses a custom **Obsidian Dark** design language:
 | `--accent-light` | `#818CF8` | Text accents, icons |
 | `--text-primary` | `#F1F5F9` | Headings & body text |
 | `--text-muted` | `#94A3B8` | Subtext, labels |
-| `--success` | `#10B981` | Resolved status |
-| `--warning` | `#F59E0B` | Medium priority |
-| `--danger` | `#F43F5E` | Critical / rejected |
-| `--info` | `#06B6D4` | In-progress status |
-
----
-
-## 📸 Screenshots
-
-### 🏠 Landing Page
-![Landing Page](public/screenshots/landing.png)
-> Obsidian dark hero with animated "Report. Track. Resolve." headline, CTA buttons, and Indian Flag background.
-
-### 📋 Citizen Reports Portal
-![Citizen Reports](public/screenshots/citizen-reports.png)
-> Citizen dashboard showing submitted reports with status badges (Submitted, Assigned, In Progress, Resolved), priority tags, and issue cards.
-
-### 🛡️ Authority Dashboard
-![Authority Dashboard](public/screenshots/dashboard.png)
-> Admin control panel with KPI cards, Issues by Category bar chart, Status Distribution pie chart, advanced filters, and paginated issues table.
-
-### 🆘 Emergency Connect (SOS)
-![Emergency SOS Modal](public/screenshots/sos-modal.png)
-> One-tap emergency modal with Police (100) & Fire Brigade (101) quick-dial, secondary numbers (Ambulance, Disaster, Women Safety), nearest stations list, and live Leaflet map.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'feat: add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-Please make sure your code follows the existing TypeScript + ESLint configuration.
 
 ---
 
