@@ -2,6 +2,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Issue, User, CreateIssueInput, UpdateIssueInput } from '@/types';
 import { mockIssues, mockUsers } from '@/data/mockData';
 
+export interface CitizenEditInput {
+  title?: string;
+  category?: import('@/types').Category;
+  description?: string;
+  address?: string;
+  imageUrl?: string;
+}
+
 // Global singleton store for Next.js dev server & worker persistence
 const globalForStore = globalThis as unknown as {
   issuesStore?: Issue[];
@@ -70,6 +78,31 @@ export function updateIssue(
 ): Issue | null {
   const idx = issuesStore.findIndex((i) => i.id === id);
   if (idx === -1) return null;
+  issuesStore[idx] = {
+    ...issuesStore[idx],
+    ...input,
+    updatedAt: new Date().toISOString(),
+  };
+  return issuesStore[idx];
+}
+
+export function deleteIssue(id: string): boolean {
+  const idx = issuesStore.findIndex((i) => i.id === id);
+  if (idx === -1) return false;
+  issuesStore.splice(idx, 1);
+  return true;
+}
+
+export function citizenEditIssue(
+  id: string,
+  reporterId: string,
+  input: CitizenEditInput
+): Issue | null {
+  const idx = issuesStore.findIndex((i) => i.id === id && i.reporterId === reporterId);
+  if (idx === -1) return null;
+  // Only allow edit when status is Submitted or Under_Review
+  const editable: import('@/types').Status[] = ['Submitted', 'Under_Review'];
+  if (!editable.includes(issuesStore[idx].status)) return null;
   issuesStore[idx] = {
     ...issuesStore[idx],
     ...input,

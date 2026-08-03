@@ -18,6 +18,8 @@ export type Priority = 'Low' | 'Medium' | 'High' | 'Critical';
 
 export type Role = 'citizen' | 'admin';
 
+export type RejectionReason = 'duplicate' | 'invalid' | 'out_of_jurisdiction' | 'other';
+
 export interface User {
   id: string;
   name: string;
@@ -44,6 +46,10 @@ export interface Issue {
   createdAt: string;
   updatedAt: string;
   resolutionNotes: string;
+  /** ISO timestamp when issue moved to Under_Review or Assigned (for triage-time KPI) */
+  reviewedAt?: string;
+  /** Populated for rejected issues — reason for rejection */
+  rejectionReason?: RejectionReason;
 }
 
 export interface CreateIssueInput {
@@ -63,6 +69,8 @@ export interface UpdateIssueInput {
   priority?: Priority;
   assignedTo?: string;
   resolutionNotes?: string;
+  reviewedAt?: string;
+  rejectionReason?: RejectionReason;
 }
 
 export interface AuthPayload {

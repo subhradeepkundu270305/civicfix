@@ -8,11 +8,19 @@ import AnimatedCard from './AnimatedCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Clock, MapPin, FileText, ChevronDown, ChevronUp,
-  CheckCircle, Building2,
+  CheckCircle, Building2, Pencil, Trash2, Lock,
 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function ReportCard({ issue, index = 0 }: { issue: Issue; index?: number }) {
+interface ReportCardProps {
+  issue: Issue;
+  index?: number;
+  /** If provided, Edit / Delete buttons are shown (citizen view only) */
+  onEdit?: (issue: Issue) => void;
+  onDelete?: (issue: Issue) => void;
+}
+
+export default function ReportCard({ issue, index = 0, onEdit, onDelete }: ReportCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   const formattedDate = new Date(issue.createdAt).toLocaleDateString('en-IN', {
@@ -20,6 +28,7 @@ export default function ReportCard({ issue, index = 0 }: { issue: Issue; index?:
   });
 
   const isResolved = issue.status === 'Resolved';
+  const isEditable = ['Submitted', 'Under_Review'].includes(issue.status);
 
   return (
     <AnimatedCard
@@ -81,6 +90,49 @@ export default function ReportCard({ issue, index = 0 }: { issue: Issue; index?:
             </div>
           )}
         </div>
+
+        {/* ── Citizen action buttons ─────────────────────────────────────── */}
+        {(onEdit || onDelete) && (
+          <div className="flex gap-2 pt-0.5">
+            {/* Edit button */}
+            {onEdit && (
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onEdit(issue)}
+                disabled={!isEditable}
+                title={isEditable ? 'Edit report' : 'Cannot edit — report is already being processed'}
+                className={`flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold py-2 rounded-xl border transition-all
+                  ${isEditable
+                    ? 'bg-[#4F46E5]/10 border-[#4F46E5]/30 text-[#818CF8] hover:bg-[#4F46E5]/25 hover:text-white hover:border-[#6366F1]/60 shadow-sm'
+                    : 'bg-white/3 border-white/5 text-slate-600 cursor-not-allowed opacity-50'
+                  }`}
+              >
+                {isEditable ? <Pencil className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
+                Edit
+              </motion.button>
+            )}
+
+            {/* Delete button */}
+            {onDelete && (
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onDelete(issue)}
+                disabled={!isEditable}
+                title={isEditable ? 'Delete report' : 'Cannot delete — report is already being processed'}
+                className={`flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold py-2 rounded-xl border transition-all
+                  ${isEditable
+                    ? 'bg-rose-950/20 border-rose-500/25 text-rose-400 hover:bg-rose-600/20 hover:text-rose-300 hover:border-rose-500/50 shadow-sm'
+                    : 'bg-white/3 border-white/5 text-slate-600 cursor-not-allowed opacity-50'
+                  }`}
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                Delete
+              </motion.button>
+            )}
+          </div>
+        )}
 
         {/* Expand button with micro-interactions */}
         <motion.button
