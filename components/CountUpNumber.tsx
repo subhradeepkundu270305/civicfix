@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 
 interface CountUpNumberProps {
   end: number;
-  duration?: number;  // ms
+  duration?: number;  // ms or seconds
   prefix?: string;
   suffix?: string;
   decimals?: number;
@@ -13,57 +14,51 @@ interface CountUpNumberProps {
 
 export default function CountUpNumber({
   end,
-  duration = 1000,
+  duration = 1400,
   prefix = '',
   suffix = '',
   decimals = 0,
   className = '',
 }: CountUpNumberProps) {
-  const [display, setDisplay] = useState(0);
-  const startTime = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
+  const ref = useRef<HTMLSpanElement>(null);
+  const count = useMotionValue(0);
+  const isInView = useInView(ref, { once: true, margin: '0px' });
 
-  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+  // Convert duration to seconds if provided in milliseconds
+  const durationInSeconds = duration > 20 ? duration / 1000 : duration;
+
+  const formattedValue = useTransform(count, (latest) => {
+    const val = parseFloat(latest.toFixed(decimals));
+    const formatted = val.toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+    return `${prefix}${formatted}${suffix}`;
+  });
 
   useEffect(() => {
-    startTime.current = null;
-    const startVal = display;
-    const targetVal = end;
-
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-
-    if (startVal === targetVal) {
-      setDisplay(targetVal);
-      return;
+    if (isInView) {
+      const controls = animate(count, end, {
+        duration: durationInSeconds,
+        ease: [0.16, 1, 0.3, 1], // smooth framer-motion ease-out
+      });
+      return () => controls.stop();
     }
+  }, [count, end, durationInSeconds, isInView]);
 
-    const animate = (timestamp: number) => {
-      if (!startTime.current) startTime.current = timestamp;
-      const elapsed = timestamp - startTime.current;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeOutCubic(progress);
-
-      const val = startVal + easedProgress * (targetVal - startVal);
-      setDisplay(parseFloat(val.toFixed(decimals)));
-
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate);
-      } else {
-        setDisplay(targetVal);
+  useEffect(() => {
+    const unsubscribe = formattedValue.on('change', (v) => {
+      if (ref.current) {
+        ref.current.textContent = v;
       }
-    };
-
-    rafRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [end, duration, decimals]);
+    });
+    return () => unsubscribe();
+  }, [formattedValue]);
 
   return (
-    <span className={className}>
-      {prefix}{display.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}{suffix}
+    <span ref={ref} className={className}>
+      {prefix}0{suffix}
     </span>
   );
 }
+
